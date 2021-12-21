@@ -1,0 +1,124 @@
+﻿.about-me {
+    overflow-wrap: break-word;
+}
+
+.user-name {
+    width: 100%;
+    margin: 12px 0 12px 0;
+}
+
+    .user-name h3 {
+        color: #000000;
+        font-size: 24px;
+        text-transform: capitalize;
+        font-weight: 400;
+        margin-bottom: 8px;
+    }
+
+.user-status {
+    width: 100%;
+    padding-inline-start: 0px;
+}
+
+    .user-status h4 {
+        color: #686868;
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .user-status span {
+        color: #000000;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+.post-topbar {
+    width: 100%;
+}
+
+    .post-topbar > img {
+        float: left;
+        border-radius: 50px;
+        height: 50px;
+        width: 50px;
+        margin-top: 2px;
+    }
+
+.post-author {
+    margin-left: 15px;
+}
+
+    .post-author > a {
+        color: #2a5885;
+        text-decoration: none;
+        font-size: 1.15rem;
+        text-transform: capitalize;
+        font-weight: 400;
+        margin-bottom: 5px;
+        margin-top: 2px;
+        margin-right: 6px;
+    }
+
+    .post-author > span {
+        color: #b2b2b2;
+        font-size: 1rem;
+    }
+
+.post-options {
+    top: 7px;
+}
+
+    .post-options > a {
+        cursor: pointer;
+    }
+
+.form-control:focus {
+    box-shadow: none;
+}
+
+.comments-button {
+    all: unset;
+    cursor: pointer;
+}
+
+.comment-author > a {
+    color: #2a5885;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.comment-text {
+    white-space: pre-wrap;
+}
+
+.comment-edit > textarea,
+.write-comment > textarea {
+    overflow: hidden;
+    resize: none;
+}
+
+.send-comment-button {
+    display: inline-flex;
+    align-items: start;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 6px 0 0 0;
+    font: inherit;
+}
+
+.action {
+    cursor: pointer;
+}
+
+.post-menu-icon {
+    color: blue;
+}
+
+.ck-editor {
+    width: 100% !important;
+}
+
+[v-cloak] {
+    display: none;
+}

@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+.idea/
+node_modules/
+**/wwwroot/img/avatars/*
+!**/wwwroot/img/avatars/default.png

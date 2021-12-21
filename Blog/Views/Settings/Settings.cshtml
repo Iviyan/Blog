@@ -1,0 +1,126 @@
+﻿@model SettingsModel
+
+@inject IScopedData data
+@{
+	bool isAuth = User.Identity?.IsAuthenticated == true;
+	var user = data.AuthUserInfo;
+}
+
+@{
+    string page = Context.Request.Path.Value!.Split('/')[^1];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/lib/cropperjs/dist/cropper.min.css"/>
+
+    <style>
+        label .req:after {
+            margin: 2px;
+            color: #e22;
+            font-weight: bold;
+            content: '*';
+        }
+        
+        .clickable-label {
+            cursor: pointer;
+        }
+        
+        .img-container img {
+          display: block;
+          max-width: 100%;
+        }
+        
+        .cropper-view-box,
+        .cropper-face {
+            border-radius: 50%;
+        }
+    </style>
+    
+    <script>
+    
+    </script>
+}
+
+@section Scripts
+{
+    <script src="~/lib/ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+    <script src="~/lib/ckeditor/ckeditor5-build-classic/build/translations/ru.js"></script>
+
+    <script src="~/lib/cropperjs/dist/cropper.min.js"></script>
+
+    <script src="~/js/Settings.js"></script>
+}
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+    </symbol>
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+</svg>
+
+<h4 class="text-center display-5">
+    <a asp-action="Settings" asp-route-page="Info" class="text-decoration-none" style="color: inherit;">Настройки</a>
+</h4>
+
+<div class="modal fade" id="avatarChangeModal" tabindex="-1" aria-labelledby="avatarChangeModalTitle" data-bs-backdrop="false" aria-modal="true" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="avatarChangeModalTitle">Изменение фото</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container danger">
+                    <img id="avatarModalImage" src="@user.AvatarPath" alt="Picture">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button id="sendAvatar" type="button" class="btn btn-primary">Загрузить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="mb-4">
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link" class-active="@(page == "Info")" id="nav-general-tab" href="Info" data-bs-toggle="tab" data-bs-target="#nav-general" type="button" role="tab" aria-controls="nav-general" aria-selected="true">Общие</button>
+        <button class="nav-link" class-active="@(page == "Security")" id="nav-security-tab" href="Security" data-bs-toggle="tab" data-bs-target="#nav-security" type="button" role="tab" aria-controls="nav-security" aria-selected="false">Безопасность</button>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade @(page == "Info" ? "show active" : "")" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3">
+                    <label class="clickable-label" data-bs-toggle="tooltip" title="Изменить фото">
+                        <img class="rounded-circle" id="settingsAvatar" width="150px" height="150" src="@user.AvatarPath" alt="avatar">
+                        <input type="file" class="visually-hidden" id="avatarFileInput" name="avatarModalImage" accept="avatarModalImage/*">
+                    </label>
+                    <small class="mt-1">Нажмите, чтобы изменить фото</small>
+                    <form asp-action="ResetAvatar" id="resetAvatarForm"
+                          class="mt-3" class-d-none="@user.AvatarExists">
+                        <button type="submit" class="btn btn-outline-primary">Удалить</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-9 border-right">
+                @await Html.PartialAsync("_UserInfoForm", Model.UserInfoViewModel 
+                                                          ?? new ChangeUserInfoViewModel
+                                                          {
+                                                              Login = Model.User.Login,
+                                                              FullName = Model.User.FullName,
+                                                              AboutMe = Model.User.AboutMe
+                                                          })
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade @(page == "Security" ? "show active" : "")" id="nav-security" role="tabpanel" aria-labelledby="nav-security-tab">
+        @await Html.PartialAsync("_PasswordChangeForm", Model.PasswordViewModel)
+    </div>
+</div>

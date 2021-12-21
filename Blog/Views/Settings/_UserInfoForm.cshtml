@@ -1,0 +1,29 @@
+﻿@model Blog.ViewModels.ChangeUserInfoViewModel
+
+<form asp-action="ChangeInfo" class="row g-3 needs-validation" novalidate>
+    <div class="col-md-12">
+        <label for="loginInput" class="form-label">Логин</label>
+        <input asp-for="Login" class="form-control" bs-valid id="loginInput" pattern="^[a-zA-Z][a-zA-Z0-9_]{2,19}" value="@Model.Login" placeholder="@($"id{Context.Items[Strings.Context.UserId]}")">
+        <div id="loginHelp" class="form-text">Логин должен начинаться с буквы и содержать только буквы английского алфавита, а также цифры и _</div>
+        <div class="invalid-feedback">
+            <span asp-validation-for="Login"></span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <label for="fullNameInput" class="form-label req">Имя</label>
+        <input asp-for="FullName" value="@Model.FullName" class="form-control" bs-valid id="fullNameInput" required>
+        <div class="invalid-feedback">
+            <span asp-validation-for="FullName"></span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <label for="aboutMeInput" class="form-label">Обо мне</label>
+        <textarea asp-for="AboutMe" value="@Model.AboutMe" class="form-control" bs-valid id="aboutMeInput" ></textarea>
+        <div class="invalid-feedback">
+            <span asp-validation-for="AboutMe"></span>
+        </div>
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">Изменить</button>
+    </div>
+</form>

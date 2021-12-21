@@ -1,0 +1,71 @@
+﻿@model User
+
+@{
+	bool isAuth = User.Identity?.IsAuthenticated == true;
+}
+
+@section Scripts
+{
+<script>
+	var __userId = @Model.Id;
+</script>
+
+<script src="https://unpkg.com/vue@3.2.22/dist/vue.global.js"></script>
+<script src="~/lib/ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+<script src="~/lib/ckeditor/ckeditor5-build-classic/build/translations/ru.js"></script>
+<script src="~/lib/ckeditor/ckeditor5-vue/dist/ckeditor.js"></script>
+<script src="~/js/UserPage.js"></script>
+}
+
+@section Styles
+{
+	<link rel="stylesheet" href="~/css/UserPage.css" />
+}
+
+<div class="row gx-3" class-justify-content-center="@Model.AboutMe is null">
+	<div class="@(Model.AboutMe is { } ? "col-md-5" : "col-lg-8 col-md-10")">
+		<div class="d-flex flex-column align-items-center text-center p-3 border">
+			<img class="rounded-circle" id="settingsAvatar" width="150" height="150" src="@Strings.Files.GetAvatarPathOrDefault(Model.AvatarFileName)" alt="avatar">
+			<div class="user-name">
+				<h3>@Model.FullName</h3>
+			</div>
+			<div class="user-status row">
+				<div class="col-6 border">
+					<span>@Model.PostCount</span>
+					<h4>Посты</h4>
+				</div>
+				<div class="col-6 border">
+					<span>@Model.FollowerCount</span>
+					<h4>Подписчики</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	@if (Model.AboutMe is { })
+	{
+		<div class="col-md-7 mt-3 mt-md-0">
+			<div class="about-me border me-0 p-2">@Html.Raw(Model.AboutMe)</div>
+		</div>
+	}
+</div>
+
+<div class="row justify-content-center">
+	<div class="col-lg-8 col-md-10 gy-3">
+		<div v-if="userId === authUser?.id" v-cloak class="row row-cols-1 g-0 mb-3">
+			<ckeditor :editor="postEditor"
+					  v-model="postEditorData"
+					  :config="postEditorConfig"></ckeditor>
+			<button @@click="sendPost" :disabled="!isSendPostButtonEnabled" class="btn btn-sm btn-outline-primary mt-1">Отправить</button>
+		</div>
+		<div class="row row-cols-1 gy-3 gx-0">
+			<post v-for="post in posts" v-bind="post" :key="post.id" @@delete="deletePost" @@edit="updatePost"></post>
+		</div>
+		<div class="col text-center mt-2" v-cloak>
+			<button v-show="!allPostsLoaded && !postsLoading" @@click="loadPosts" class="btn">Загрузить ещё</button>
+			<div v-show="postsLoading" class="spinner-border" role="status">
+				<span class="visually-hidden">Загрузка...</span>
+			</div>
+		</div>
+	</div>
+</div>

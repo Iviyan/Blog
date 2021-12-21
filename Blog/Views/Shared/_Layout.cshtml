@@ -1,0 +1,95 @@
+﻿@inject IScopedData data
+@{
+	bool isAuth = User.Identity?.IsAuthenticated == true;
+	var user = data.AuthUserInfo;
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	@await RenderSectionAsync("Styles", false)
+
+	<style>
+		a[disabled] {
+			color: gray;
+			pointer-events: none;
+		}
+	</style>
+</head>
+<body>
+
+	<header class="p-3 mb-3 border-bottom">
+		<div class="container">
+			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+				<a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+					<img src="/logo.svg" width="100" height="32" class="bi me-2">
+				</a>
+
+				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+					@if (isAuth)
+					{
+						<li>
+							<a href="/u/@(user!.Login ?? user.Id.ToString())" class="nav-link px-2 link-primary">Мой блог</a>
+						</li>
+						<li data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="bottom" data-bs-content="Уже скоро">
+							<a href="#" disabled class="nav-link px-2 link-dark">Новости</a>
+						</li>
+						<li data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="bottom" data-bs-content="Уже скоро">
+							<a href="#" disabled class="nav-link px-2 link-dark">Подписки</a>
+						</li>
+					}
+				</ul>
+
+				<form class="@(isAuth ? "col col-md-6 col-lg-auto" : "col-12 col-sm-6 col-lg-auto mb-3 mb-sm-0 me-sm-3")"
+					data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="bottom" data-bs-content="Уже скоро">
+					<input disabled type="search" class="form-control" placeholder="Поиск" aria-label="Введите логин или имя">
+				</form>
+
+				@if (isAuth)
+				{
+					<div class="dropdown text-end ms-3">
+						<a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+							<img id="headerUserAvatar" src="@user.AvatarPath" alt="avatar" width="32" height="32" class="rounded-circle">
+						</a>
+						<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser" style="">
+							<li>
+								<a class="dropdown-item" asp-action="Settings" asp-controller="Settings">Настройки</a>
+							</li>
+							<li>
+								<hr class="dropdown-divider">
+							</li>
+							<li>
+								<a asp-action="Logout" asp-controller="Account" class="dropdown-item">Выход</a>
+							</li>
+						</ul>
+					</div>
+				}
+				else
+				{
+					<div class="col-auto text-end">
+						<a asp-action="Login" asp-controller="Account" type="button" class="btn btn-outline-primary me-2">Вход</a>
+						<a asp-action="Register" asp-controller="Account" type="button" class="btn btn-primary">Регистрация</a>
+					</div>
+				}
+			</div>
+		</div>
+	</header>
+
+	<div class="container g-0 pb-3" id="container">
+		@RenderBody()
+	</div>
+
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+	<script>
+		var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+			return new bootstrap.Popover(popoverTriggerEl)
+		})
+	</script>
+</body>
+</html>
