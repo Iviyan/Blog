@@ -104,7 +104,7 @@
                     </label>
                     <small class="mt-1">Нажмите, чтобы изменить фото</small>
                     <form asp-action="ResetAvatar" id="resetAvatarForm"
-                          class="mt-3" class-d-none="@user.AvatarExists">
+                          class="mt-3" class-d-none="@(!user.AvatarExists)">
                         <button type="submit" class="btn btn-outline-primary">Удалить</button>
                     </form>
                 </div>

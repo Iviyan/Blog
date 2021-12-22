@@ -76,7 +76,7 @@ public class SettingsController : Controller
         return View("Settings", new SettingsModel { User = user, PasswordViewModel = model });
     }
 
-    [HttpPost]
+    [HttpPost("[controller]/ResetAvatar")]
     public async Task<IActionResult> ResetAvatar(
         [FromServices] DatabaseConnectionStrings connectionStrings,
         [FromServices] IWebHostEnvironment env)

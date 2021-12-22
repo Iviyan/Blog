@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <label for="loginInput" class="form-label">Логин</label>
         <input asp-for="Login" class="form-control" bs-valid id="loginInput" pattern="^[a-zA-Z][a-zA-Z0-9_]{2,19}" value="@Model.Login" placeholder="@($"id{Context.Items[Strings.Context.UserId]}")">
-        <div id="loginHelp" class="form-text">Логин должен начинаться с буквы и содержать только буквы английского алфавита, а также цифры и _</div>
+        <div id="loginHelp" class="form-text">Логин должен начинаться с буквы и содержать только буквы английского алфавита, а также цифры и _. Минимальная длина - 3.</div>
         <div class="invalid-feedback">
             <span asp-validation-for="Login"></span>
         </div>

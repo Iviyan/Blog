@@ -321,8 +321,8 @@ app.component('post', {
 					<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
 				</svg>
 				<ul class="dropdown-menu">
-					<li><button @@click="editMode = true" class="dropdown-item">Редактировать</button></li>
-					<li><button @@click="$emit('delete', id)" class="dropdown-item">Удалить</button></li>
+					<li><button @click="editMode = true" class="dropdown-item">Редактировать</button></li>
+					<li><button @click="$emit('delete', id)" class="dropdown-item">Удалить</button></li>
 				</ul>
 			</div>
 		</div>
@@ -332,20 +332,20 @@ app.component('post', {
 					  v-model="postEditorData"
 					  :config="postEditorConfig"></ckeditor>
 			<div class="d-flex justify-content-end mt-1">
-				<button @@click="editMode = false" class="btn btn-sm btn-outline-danger">Отмена</button>
-				<button @@click="$emit('edit', { id: id, text: postEditorData }); editMode = false" class="btn ms-1 btn-sm btn-outline-success">Изменить</button>
+				<button @click="editMode = false" class="btn btn-sm btn-outline-danger">Отмена</button>
+				<button @click="$emit('edit', { id: id, text: postEditorData }); editMode = false" class="btn ms-1 btn-sm btn-outline-success">Изменить</button>
 			</div>
 		</div>
 		<div class="post-feedback pt-2 border-top">
-			<button @@click="commentsVisible = !commentsVisible" class="comments-button text-secondary">Комментарии  {{commentCount}}</button>
+			<button @click="commentsVisible = !commentsVisible" class="comments-button text-secondary">Комментарии  {{commentCount}}</button>
 		</div>
 	</div>
 	<div v-if="comments.length > 0 || isAuth" v-show="commentsVisible" class="post-comments py-2 px-3 border-top px-0">
 		<div v-if="comments.length > 0" class="row row-cols-1 gy-3 gx-0">
-			<comment v-for="comment in comments" v-bind="comment" :key="comment.id" @@delete="deleteComment" @@edit="updateComment"></comment>
+			<comment v-for="comment in comments" v-bind="comment" :key="comment.id" @delete="deleteComment" @edit="updateComment"></comment>
 		</div>
 		<div class="col text-center">
-			<button v-show="!allCommentsLoaded && !commentsLoading" @@click="loadComments" class="btn">Загрузить ещё</button>
+			<button v-show="!allCommentsLoaded && !commentsLoading" @click="loadComments" class="btn">Загрузить ещё</button>
 			<div v-show="commentsLoading" class="spinner-border" role="status">
 				<span class="visually-hidden">Загрузка...</span>
 			</div>
@@ -361,7 +361,7 @@ app.component('post', {
 				rows="1"
 				/>
 
-			<button @@click="sendComment" :disabled="!isSendCommentButtonEnabled" class="send-comment-button">
+			<button @click="sendComment" :disabled="!isSendCommentButtonEnabled" class="send-comment-button">
 				<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="action" viewBox="0 0 16 16">
 					<path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
 				</svg>
@@ -408,12 +408,12 @@ app.component('comment', {
 			</div>
 			<div v-if="author.id === authUser?.id" class="row gx-1 gy-0">
 				<div class="col">
-					<svg @@click="editMode = !editMode" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="action" viewBox="0 0 16 16">
+					<svg @click="editMode = !editMode" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="action" viewBox="0 0 16 16">
 						<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
 					</svg>
 				</div>
 				<div class="col">
-					<svg @@click="$emit('delete', id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="action" viewBox="0 0 16 16">
+					<svg @click="$emit('delete', id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="action" viewBox="0 0 16 16">
 						<path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
 						<path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
 					</svg>
@@ -428,8 +428,8 @@ app.component('comment', {
 					  v-model="editData"
 					  class="form-control flex-fill mx-2"></textarea>
 			<div class="d-flex justify-content-end mt-1">
-				<button @@click="editMode = false" class="btn btn-sm btn-outline-danger">Отмена</button>
-				<button @@click="editSubmit" class="btn ms-1 btn-sm btn-outline-success">Изменить</button>
+				<button @click="editMode = false" class="btn btn-sm btn-outline-danger">Отмена</button>
+				<button @click="editSubmit" class="btn ms-1 btn-sm btn-outline-success">Изменить</button>
 			</div>
 		</div>
 	</div>

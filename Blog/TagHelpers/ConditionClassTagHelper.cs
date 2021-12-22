@@ -7,7 +7,7 @@ public class ConditionClassTagHelper : TagHelper
 {
     private const string ClassValuesPrefix = "class-";
 
-    private IDictionary<string, bool> classValues = default!;
+    private IDictionary<string, bool>? classValues;
 
     [HtmlAttributeName(DictionaryAttributePrefix = ClassValuesPrefix)]
     public IDictionary<string, bool> ClassValues
